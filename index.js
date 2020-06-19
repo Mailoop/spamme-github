@@ -6,9 +6,29 @@ module.exports = app => {
   // Your code here
   app.log('Yay, the app was loaded!')
 
-  app.on('issues.opened', async context => {
-    const issueComment = context.issue({ body: 'Thanks for opening this issue!' })
-    return context.github.issues.createComment(issueComment)
+  app.on('issue_comment', async context => {
+    const comment = context.payload.comment
+    const body =  comment.body
+
+    const matchSplit = body.match(new RegExp("@spamee")) && body.match(new RegExp("--split"))
+
+    if (comment.user.type == "User" && matchSplit) {
+      const newIssueName = body.replace("@spamee", "").replace("--split", "")
+      const created_issue = await context.github.issues.create({
+        owner: "Mailoop",
+        repo: "app",
+        labels: ["1: Definition Qualification"],
+        title: newIssueName,
+        body: `Created By Spamme after issue spliting 🎉`
+      })
+
+      app.log("body", comment.body)
+      const answerBody = `Ok, i split this issue
+**Create:** ${newIssueName}: ${created_issue.data.html_url}`
+
+      const issueComment = context.issue({ body: answerBody })
+      return context.github.issues.createComment(issueComment)
+    }
   })
 
   // For more information on building apps:
