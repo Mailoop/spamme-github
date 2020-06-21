@@ -8,8 +8,10 @@ module.exports = app => {
 
   app.on('issue_comment', async context => {
     const comment = context.payload.comment
+    const issue = context.payload.issue
     const body =  comment.body
 
+    app.log("body", context.payload.issue.html_url)
     const matchSplit = body.match(new RegExp("@spamee")) && body.match(new RegExp("--split"))
 
     if (comment.user.type == "User" && matchSplit) {
@@ -17,14 +19,15 @@ module.exports = app => {
       const created_issue = await context.github.issues.create({
         owner: "Mailoop",
         repo: "app",
-        labels: ["1: Definition Qualification"],
+        labels: issue.labels,
         title: newIssueName,
-        body: `Created By Spamme after issue spliting 🎉`
+        body: `Created By Spamme 🎉
+        Spliting of : ${issue.title} ${issue.html_url}
+        `
       })
 
       app.log("body", comment.body)
-      const answerBody = `Ok, i split this issue
-**Create:** ${newIssueName}: ${created_issue.data.html_url}`
+      const answerBody = `Spliting Done 👍`
 
       const issueComment = context.issue({ body: answerBody })
       return context.github.issues.createComment(issueComment)
