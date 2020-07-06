@@ -18,7 +18,7 @@ module.exports = app => {
   })
 
   app.on('issue_comment', async context => {
-    const milestones = await context.github.listMilestones({
+    const milestones = await context.github.issues.listMilestones({
       owner: 'Mailoop',
       repo: 'app',
     })
