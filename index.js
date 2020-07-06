@@ -2,11 +2,31 @@
  * This is the main entrypoint to your Probot app
  * @param {import('probot').Application} app
  */
+var getWeekYear = require('date-fns/getWeekYear')
+
 module.exports = app => {
   // Your code here
   app.log('Yay, the app was loaded!')
+  app.on('issues.opened', async context => {
+    const milestones = await context.github.listMilestones({
+      owner: 'Mailoop',
+      repo: 'app',
+    })
+    const currentWeekNumber = getWeekYear(new Date())
+    current_milestone = milestones.filter(milestone => milestone.title.match(currentWeekNumber))
+    app.log("payload", context.current_milestone)
+  })
 
   app.on('issue_comment', async context => {
+    const milestones = await context.github.listMilestones({
+      owner: 'Mailoop',
+      repo: 'app',
+    })
+    const currentWeekNumber = getWeekYear(new Date())
+    current_milestone = milestones.filter(milestone => milestone.title.match(currentWeekNumber))
+    app.log("payload", context.current_milestone)
+
+
     const comment = context.payload.comment
     const action = context.payload.action
     const issue = context.payload.issue
