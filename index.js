@@ -10,8 +10,9 @@ module.exports = app => {
     const comment = context.payload.comment
     const issue = context.payload.issue
     const body =  comment.body
+    app.log("payload", context.payload)
 
-    app.log("body", context.payload.issue.html_url)
+
     const matchSplit = body.match(new RegExp("@spamee")) && body.match(new RegExp("--split"))
 
     if (comment.user.type == "User" && matchSplit) {
