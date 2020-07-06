@@ -24,7 +24,7 @@ module.exports = app => {
     })
     const currentWeekNumber = getWeekYear(new Date())
     current_milestone = milestones.filter(milestone => milestone.title.match(currentWeekNumber))
-    app.log("payload", context.current_milestone)
+    app.log("Milestone", current_milestone)
 
 
     const comment = context.payload.comment
