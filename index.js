@@ -8,16 +8,18 @@ module.exports = app => {
 
   app.on('issue_comment', async context => {
     const comment = context.payload.comment
+    const action = context.payload.action
     const issue = context.payload.issue
+    if (action == 'deleted') {
+      return ;
+    }
     const body =  comment.body
     app.log("payload", context.payload)
-
-
     const matchSplit = body.match(new RegExp("@spamee")) && body.match(new RegExp("--split"))
 
     if (comment.user.type == "User" && matchSplit) {
       const newIssueName = body.replace("@spamee", "").replace("--split", "")
-      const created_issue = await context.github.issues.create({
+      await context.github.issues.create({
         owner: "Mailoop",
         repo: "app",
         labels: issue.labels,
