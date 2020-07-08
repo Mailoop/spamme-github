@@ -8,15 +8,18 @@ module.exports = app => {
   // Your code here
   app.log('Yay, the app was loaded!')
   app.on('issues.opened', async context => {
-    const milestones = await context.github.issues.listMilestonesForRepo({
+    const {data: milestones} = await context.github.issues.listMilestonesForRepo({
       owner: 'Mailoop',
       repo: 'app',
     })
 
     const currentWeekNumber = getWeek(new Date(), { weekStartsOn: 1, firstWeekContainsDate: 4 })
     app.log("currentWeekNumber", currentWeekNumber)
-    current_milestone = milestones.data.filter(milestone => milestone.title.match(currentWeekNumber))
-    app.log("Milestone", current_milestone)
+    const current_milestone_number = milestones.filter(milestone => milestone.title.match(currentWeekNumber)).first.number
+    app.log("Milestone", current_milestone_number)
+    context.github.issues.update(context.github.issue({
+      milestone: current_milestone_number,
+    }))
 
   })
 
