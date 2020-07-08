@@ -2,7 +2,7 @@
  * This is the main entrypoint to your Probot app
  * @param {import('probot').Application} app
  */
-var getWeekYear = require('date-fns/getWeek')
+var getWeek = require('date-fns/getWeek')
 
 module.exports = app => {
   // Your code here
