@@ -13,9 +13,8 @@ module.exports = app => {
       repo: 'app',
     })
 
-    const currentWeekNumber = getWeekYear(new Date())
+    const currentWeekNumber = getWeekYear(new Date(), { weekStartsOn: 1, firstWeekContainsDate: 4 })
     app.log("currentWeekNumber", currentWeekNumber)
-    app.log("Week Number", milestones)
     current_milestone = milestones.data.filter(milestone => milestone.title.match(currentWeekNumber))
     app.log("Milestone", current_milestone)
 
