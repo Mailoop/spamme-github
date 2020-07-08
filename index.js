@@ -11,10 +11,11 @@ module.exports = app => {
     const milestones = await context.github.issues.listMilestonesForRepo({
       owner: 'Mailoop',
       repo: 'app',
-    })
+    }).data
 
     app.log("Milestone", milestones)
     const currentWeekNumber = getWeekYear(new Date())
+    app.log("Week Number", milestones)
     current_milestone = milestones.filter(milestone => milestone.title.match(currentWeekNumber))
     app.log("Milestone", current_milestone)
 
