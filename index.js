@@ -12,12 +12,11 @@ module.exports = app => {
       owner: 'Mailoop',
       repo: 'app',
     })
-    app.log("Keys", Object.keys(milestones))
 
-    app.log("Milestone", milestones)
     const currentWeekNumber = getWeekYear(new Date())
+    app.log("currentWeekNumber", currentWeekNumber)
     app.log("Week Number", milestones)
-    current_milestone = milestones.filter(milestone => milestone.title.match(currentWeekNumber))
+    current_milestone = milestones.data.filter(milestone => milestone.title.match(currentWeekNumber))
     app.log("Milestone", current_milestone)
 
   })
