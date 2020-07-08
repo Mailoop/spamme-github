@@ -1,4 +1,7 @@
 /**
+ * https://probot.github.io/api/7.0.1/interfaces/githubapi.html
+ */
+/**
  * This is the main entrypoint to your Probot app
  * @param {import('probot').Application} app
  */
@@ -6,20 +9,25 @@ var getWeek = require('date-fns/getWeek')
 
 module.exports = app => {
   // Your code here
+
   app.log('Yay, the app was loaded!')
   app.on('issues.opened', async context => {
     const milestones = await context.github.issues.listMilestonesForRepo({
       owner: 'Mailoop',
       repo: 'app',
     })
+    const issue_number = context.payload.issue.number
 
     const currentWeekNumber = getWeek(new Date(), { weekStartsOn: 1, firstWeekContainsDate: 4 })
     app.log("currentWeekNumber", currentWeekNumber)
     const current_milestone = milestones.data.filter(milestone => milestone.title.match(currentWeekNumber))[0]
-    app.log("Milestone", current_milestone)
-    context.github.issues.update(context.github.issue({
+    app.log("Iuuse", Object.keys(context.github.issues))
+    context.github.issues.update({
+      owner: "Mailoop",
+      repo: "app",
+      issue_number: issue_number,
       milestone: current_milestone.number,
-    }))
+    })
 
   })
 
