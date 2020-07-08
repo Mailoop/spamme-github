@@ -15,10 +15,10 @@ module.exports = app => {
 
     const currentWeekNumber = getWeek(new Date(), { weekStartsOn: 1, firstWeekContainsDate: 4 })
     app.log("currentWeekNumber", currentWeekNumber)
-    const current_milestone = milestones.data.filter(milestone => milestone.title.match(currentWeekNumber))
+    const current_milestone = milestones.data.filter(milestone => milestone.title.match(currentWeekNumber))[0]
     app.log("Milestone", current_milestone)
     context.github.issues.update(context.github.issue({
-      milestone: current_milestone.first.number,
+      milestone: current_milestone.number,
     }))
 
   })
