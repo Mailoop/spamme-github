@@ -19,9 +19,7 @@ module.exports = app => {
     const issue_number = context.payload.issue.number
 
     const currentWeekNumber = getWeek(new Date(), { weekStartsOn: 1, firstWeekContainsDate: 4 })
-    app.log("currentWeekNumber", currentWeekNumber)
     const current_milestone = milestones.data.filter(milestone => milestone.title.match(currentWeekNumber))[0]
-    app.log("Iuuse", Object.keys(context.github.issues))
     context.github.issues.update({
       owner: "Mailoop",
       repo: "app",
