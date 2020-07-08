@@ -8,17 +8,8 @@ module.exports = app => {
   // Your code here
   app.log('Yay, the app was loaded!')
   app.on('issues.opened', async context => {
-    const milestones = await context.github.listMilestones({
-      owner: 'Mailoop',
-      repo: 'app',
-    })
-    const currentWeekNumber = getWeekYear(new Date())
-    current_milestone = milestones.filter(milestone => milestone.title.match(currentWeekNumber))
-    app.log("payload", context.current_milestone)
-  })
-
-  app.on('issue_comment', async context => {
-    const milestones = await context.github.issues.listMilestones({
+    app.log("Milestone", Object.keys(context.github.issues).sort())
+    const milestones = await context.github.issues.listMilestonesForRepo({
       owner: 'Mailoop',
       repo: 'app',
     })
@@ -26,7 +17,9 @@ module.exports = app => {
     current_milestone = milestones.filter(milestone => milestone.title.match(currentWeekNumber))
     app.log("Milestone", current_milestone)
 
+  })
 
+  app.on('issue_comment', async context => {
     const comment = context.payload.comment
     const action = context.payload.action
     const issue = context.payload.issue
