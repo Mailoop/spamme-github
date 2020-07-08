@@ -2,7 +2,7 @@
  * This is the main entrypoint to your Probot app
  * @param {import('probot').Application} app
  */
-var getWeekYear = require('date-fns/getWeekYear')
+var getWeekYear = require('date-fns/getWeek')
 
 module.exports = app => {
   // Your code here
@@ -13,7 +13,7 @@ module.exports = app => {
       repo: 'app',
     })
 
-    const currentWeekNumber = getWeekYear(new Date(), { weekStartsOn: 1, firstWeekContainsDate: 4 })
+    const currentWeekNumber = getWeek(new Date(), { weekStartsOn: 1, firstWeekContainsDate: 4 })
     app.log("currentWeekNumber", currentWeekNumber)
     current_milestone = milestones.data.filter(milestone => milestone.title.match(currentWeekNumber))
     app.log("Milestone", current_milestone)
