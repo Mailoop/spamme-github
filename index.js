@@ -6,6 +6,9 @@
  * @param {import('probot').Application} app
  */
 var getWeek = require('date-fns/getWeek')
+var axios = require('axios');
+
+const ADDED_LABEL_COLLECTOR_URL = "https://hooks.zapier.com/hooks/catch/3058207/ozdfbnq"
 
 module.exports = app => {
   // Your code here
@@ -27,6 +30,12 @@ module.exports = app => {
       milestone: current_milestone.number,
     })
 
+  })
+
+  app.on('issues.labeled', async context => {
+    app.log("Issue labelled incoming", context.payload)
+    await axios.post(ADDED_LABEL_COLLECTOR_URL, context.payload)
+    app.log("Issue labelled Outgoing", context.payload)
   })
 
   app.on('issue_comment', async context => {
