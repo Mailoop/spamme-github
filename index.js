@@ -8,7 +8,7 @@
 var getWeek = require('date-fns/getWeek')
 var axios = require('axios');
 
-const DEFAULT_PROJECT_COLUMN_ID = "MDEzOlByb2plY3RDb2x1bW44NzkzNTQy"
+const DEFAULT_PROJECT_COLUMN_ID = 8793542
 
 const ADDED_LABEL_COLLECTOR_URL = "https://hooks.zapier.com/hooks/catch/3058207/ozdfbnq"
 
