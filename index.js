@@ -36,15 +36,13 @@ module.exports = app => {
     context.github.projects.createCard({
       column_id: DEFAULT_PROJECT_COLUMN_ID,
       content_type: "Issue",
-      issue_number: issue_number,
+      content_id: issue_number,
     });
 
   })
 
   app.on('issues.labeled', async context => {
-    app.log("Issue labelled incoming", context.payload)
     await axios.post(ADDED_LABEL_COLLECTOR_URL, context.payload)
-    app.log("Issue labelled Outgoing", context.payload)
   })
 
   app.on('issue_comment', async context => {
