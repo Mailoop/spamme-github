@@ -26,7 +26,7 @@ module.exports = app => {
     const currentWeekNumber = getWeek(new Date(), { weekStartsOn: 1, firstWeekContainsDate: 4 })
     const weekExpression = `n°${currentWeekNumber}`
     const current_milestone = milestones.data.filter(milestone => milestone.title.match(weekExpression))[0]
-    context.github.issues.update({
+    const updated_issue = await context.github.issues.update({
       owner: "Mailoop",
       repo: "app",
       issue_number: issue_number,
@@ -36,7 +36,7 @@ module.exports = app => {
     context.github.projects.createCard({
       column_id: DEFAULT_PROJECT_COLUMN_ID,
       content_type: "Issue",
-      content_id: issue_number,
+      content_id: updated_issue.id,
     });
 
   })
