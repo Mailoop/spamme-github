@@ -12,6 +12,13 @@ const DEFAULT_PROJECT_COLUMN_ID = 8793542
 
 const ADDED_LABEL_COLLECTOR_URL = "https://hooks.zapier.com/hooks/catch/3058207/ozdfbnq"
 
+const ON_ISSUE_CLOSED_URL = "https://prod-00.francecentral.logic.azure.com:443/workflows/39d404521db842eaad3fd8d06474ce7a/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=OtSf9vzDXoWznKZJpuFNzvLe91bgp9gfPpzNU0XOiNw" 
+
+
+//* Documentation Of the Issue 
+//https://docs.github.com/en/rest/reference/issues
+//
+
 module.exports = app => {
   // Your code here
 
@@ -41,6 +48,12 @@ module.exports = app => {
       content_id: issue_id,
     });
 
+  })
+
+  app.on('issues.closed', async context => {
+    await axios.post(ON_ISSUE_CLOSED_URL, {
+      issue_number: context.payload.issue.issue_id
+    })
   })
 
   app.on('issues.labeled', async context => {
