@@ -52,7 +52,7 @@ module.exports = app => {
 
   app.on('issues.closed', async context => {
     await axios.post(ON_ISSUE_CLOSED_URL, {
-      issue_number: context.payload.issue.id
+      issue_number: context.payload.issue.number
     })
   })
 
